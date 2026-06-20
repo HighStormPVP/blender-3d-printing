@@ -30,6 +30,21 @@ So the goal is never "a pretty mesh." It is "a manifold, correctly-scaled, print
 solid that uses as little material as the job allows and holds up when someone uses it."
 Keep that physical reality in mind at every step.
 
+### Prefer a single, filament-only print
+
+The best result is almost always **one part (or a few printed parts) made entirely of
+filament, with no separate hardware** — nothing to source, nothing to assemble, nothing
+that can be the wrong size. Default to that. A model that prints in one piece and just
+works is better than a clever one that needs a bearing, a screw, and a magnet from a
+shop.
+
+Only introduce separate materials/hardware (bearings, magnets, screws, springs, motors)
+when the function genuinely cannot be achieved in filament alone — e.g. a part that must
+spin freely under load really does want a bearing; a strong reusable thread really does
+want a heat-set insert. Even then, prefer printed alternatives first (print-in-place
+hinges, printed snap-fits, printed living hinges, printed threads) where they'd do the
+job. When in doubt: filament only.
+
 ## Division of labor: Blender vs. the slicer
 
 A huge source of mistakes is doing the slicer's job inside Blender. Be clear about who
@@ -44,6 +59,30 @@ This matters for **filament efficiency**. Beginners try to model internal lattic
 "save plastic." Don't — that is exactly what slicer **infill** does, far better. Model
 the part as a clean solid (or a clean hollow shell with drain holes for big parts) and
 let the slicer fill it at, say, 15% gyroid. See `references/filament-efficiency.md`.
+
+## Check the Blender version first — give version-accurate instructions
+
+Blender's menus, operator names, and add-on UI change between versions, so generic
+instructions are often wrong. Before guiding the user through anything UI-related (or
+relying on a specific operator), find out which version they're running and tailor your
+instructions to it:
+
+- If the Blender MCP is connected, query it directly:
+  `import bpy; print(bpy.app.version_string)` via `execute_blender_code`.
+- If it's not connected yet (e.g. you're helping them install the addon), ask, or have
+  them check **Help → About Blender** (the splash screen also shows it).
+
+Then phrase instructions for *their* version. Examples that differ:
+- **Add-on install:** Blender **4.2+** → Preferences → Add-ons → the **▾ dropdown
+  (top-right) → "Install from Disk…"**. Blender **3.x–4.1** → Preferences → Add-ons →
+  **"Install…"** button at the top.
+- **Sidebar:** hover the mouse **over the 3D viewport**, then press **N** (the key does
+  nothing if the cursor is over another editor).
+- **Exporters:** 4.x uses the unified `bpy.ops.wm.stl_export` / `wm.threemf_export`;
+  older builds use `bpy.ops.export_mesh.stl`. The bundled scripts already try both, but
+  mention the right one if you hand-write steps.
+
+When unsure what a given version calls something, check rather than guess.
 
 ## Workflow
 
@@ -118,15 +157,20 @@ STL/3MF and say it's ready to import.
 
 ### 2. Offer separate materials / hardware — only when the print genuinely needs it
 
-Some designs are far better with a few non-printed parts: **bearings** (e.g. 608 skate
-bearings), **rubber bands**, **magnets**, **screws / heat-set threaded inserts**,
-**springs**, **motors** (e.g. NEMA 17, 28BYJ-28), shafts, etc. If — and only if — the
+**The default is filament-only** (see "Prefer a single, filament-only print" above) —
+most prints should need no hardware at all, and that's the better outcome. Don't reach
+for hardware unless the function truly requires it.
+
+Some designs *are* genuinely better with a few non-printed parts: **bearings** (e.g. 608
+skate bearings), **rubber bands**, **magnets**, **screws / heat-set threaded inserts**,
+**springs**, **motors** (e.g. NEMA 17, 28BYJ-48), shafts, etc. If — and only if — the
 function realistically requires one (a spinner needs a bearing; a hinged lid may want a
-magnet; a moving mechanism may need a motor), proactively ask the user whether they want
-to incorporate it, and if so design the correct pocket/boss/clearance for that exact
-part. **Do not bolt hardware onto things that don't need it** — a static figurine or a
-bracket usually shouldn't ask for bearings. See `references/assembly-and-hardware.md`
-for standard part dimensions and how to design the pockets.
+magnet; a moving mechanism may need a motor), and a printed alternative won't do,
+proactively ask the user whether they want to incorporate it, and if so design the
+correct pocket/boss/clearance for that exact part. **Do not bolt hardware onto things
+that don't need it** — a static figurine or a wall bracket should print in filament
+alone. See `references/assembly-and-hardware.md` for standard part dimensions and how to
+design the pockets.
 
 ## Reference files
 
