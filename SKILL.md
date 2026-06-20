@@ -60,6 +60,34 @@ This matters for **filament efficiency**. Beginners try to model internal lattic
 the part as a clean solid (or a clean hollow shell with drain holes for big parts) and
 let the slicer fill it at, say, 15% gyroid. See `references/filament-efficiency.md`.
 
+## Start here: settle the design before touching Blender
+
+When the user asks for something open-ended — "make me a 3D print for a fidget toy,"
+"I want to print a planter," "design me a phone stand" — **don't jump straight into
+Blender.** You don't yet know what they actually want, and modeling the wrong thing
+wastes everyone's time. First settle *what* you're building, with a quick branch:
+
+> "Would you like to describe one you have in mind, or would you like me to come up with
+> a few ideas for you?"
+
+Then:
+
+- **They describe it** → great. Ask only the gaps you still need (rough size, where it's
+  used, any moving/functional parts), keeping the filament-only default in mind, then
+  proceed.
+- **They want ideas** → propose a few concrete, printable options (2–4), each a sentence
+  or two on what it is and why it prints well. When they pick one (or remix), lock that
+  as the design.
+
+**Only once the design is settled** — they've fully described it, or accepted/adapted one
+of your ideas — connect to the Blender MCP and start building. At that point: check the
+Blender version, run the workflow below (set units → model → estimate → verify → export
+→ slice/handoff). If the MCP isn't connected yet, that's the moment to walk them through
+connecting it (see the version section for the right, version-accurate steps).
+
+Skip the brainstorm only when the user has *already* given a complete, unambiguous spec —
+then confirm you've got it and go.
+
 ## Check the Blender version first — give version-accurate instructions
 
 Blender's menus, operator names, and add-on UI change between versions, so generic
