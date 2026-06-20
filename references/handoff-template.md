@@ -14,7 +14,8 @@ Files:
 Material:        <PLA / PETG / TPU / ...>  — <one-line why, e.g. "PETG for outdoor + toughness">
 Recommended infill:   <e.g. 20% gyroid>     (decorative 5–10% / general 15–20% / functional 30–50%)
 Print orientation:    <which face down, and why — loads should run ACROSS layers>
-Supports:        <none needed / supports on overhang at X / tree supports>
+Supports:        <none needed / tree supports on overhang at X / lattice for heavy part>
+Bed adhesion:    <skirt / brim if tall or top-heavy / raft>   # brim also stops tipping
 Layer height:    <e.g. 0.2 mm>   Nozzle: <0.4 mm assumed>
 
 Estimated material:   <~Ng, ~cost>   (from estimate_filament.py or the slicer report)

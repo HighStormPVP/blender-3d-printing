@@ -108,10 +108,14 @@ caught there, not in the modeling.
    Avoid zero-thickness faces, intersecting/overlapping shells, and sub-nozzle detail.
    See `references/printability.md`.
 
-4. **Decide orientation for strength and support.** Layer adhesion is the weak axis —
-   orient the part so loads run *across* layers, not *along* the seam between them.
-   Design a flat base for bed adhesion and minimize overhangs. See
-   `references/printability.md`.
+4. **Decide orientation for strength, support, and bed stability.** Layer adhesion is
+   the weak axis — orient the part so loads run *across* layers, not *along* the seam
+   between them. Design a flat base for bed adhesion and minimize overhangs. Also think
+   about **stability while printing**: tall, narrow, top-heavy, or cantilevered shapes
+   can tip over or be knocked off the bed by the print head — they need a broad base, or
+   supports plus a brim to brace them (the slicer generates the supports; you design so
+   they're feasible and you flag them). See `references/printability.md` for the 45°
+   rule, support types (lattice vs. tree), and stability.
 
 5. **Split into parts if needed.** If the model is larger than a typical build plate
    (~220–250 mm), has unavoidable steep overhangs, needs different orientations for
