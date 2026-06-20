@@ -51,8 +51,34 @@ prusa-slicer --export-gcode --load cfg.ini \
   --support-material \
   --output part.gcode part.stl
 ```
-OrcaSlicer/Bambu Studio use `orca-slicer` / `bambu-studio` with similar flags; check
-`--help` for the installed version.
+### OrcaSlicer (verified, incl. Bambu printers like the A1 mini)
+
+OrcaSlicer's CLI loads the bundled **system profile JSON files** directly and resolves
+their `inherits` chain from its own `resources/profiles` tree — so you don't need to
+export anything from the GUI first. Point it at the machine + process and the filament:
+
+```bash
+ORCA="/c/Program Files/OrcaSlicer/orca-slicer.exe"
+PROF="/c/Program Files/OrcaSlicer/resources/profiles/BBL"
+"$ORCA" \
+  --load-settings "$PROF/machine/Bambu Lab A1 mini 0.4 nozzle.json;$PROF/process/0.20mm Standard @BBL A1M.json" \
+  --load-filaments "$PROF/filament/Bambu PLA Basic @BBL A1M.json" \
+  --arrange 1 --orient 1 --slice 0 \
+  --outputdir ./print_parts \
+  part.stl
+```
+
+- `--orient 1` auto-picks a print orientation (a good cross-check on your intended one);
+  drop it to keep the model's own orientation.
+- Output is `plate_1.gcode`. Read its header comments for the real stats:
+  `; model printing time:`, `; filament used [mm] =`, `; sparse_infill_density =`,
+  `; enable_support =`.
+- Profile names vary by printer/version — list `resources/profiles/<VENDOR>/{machine,
+  process,filament}` to find the exact filenames for the user's printer and material.
+
+Bambu Studio uses `bambu-studio` with similar flags, but its headless CLI is less
+reliable than OrcaSlicer's — prefer OrcaSlicer for command-line slicing, or Bambu Studio's
+GUI (it has built-in profiles for every Bambu printer).
 
 ### Cura (CuraEngine)
 CuraEngine is lower-level and wants an explicit settings JSON/definition:
