@@ -86,6 +86,34 @@ Design and orient with bed stability in mind:
 - **Flag it to the user.** If a shape is inherently unstable to print, say so and
   recommend supports + brim, or a split/reorientation that makes it stable.
 
+### Supports are temporary — they must come off cleanly
+
+Supports exist only to be **removed after the print.** They are not part of the finished
+object — the user breaks, snaps, or cuts them away once the print is done. So a good design
+makes them **easy to remove without damaging the part or leaving ugly scars.** Bad
+supports that fuse to the model, hide in unreachable cavities, or tear the surface when
+pulled are a real failure mode, even if the print "succeeds."
+
+Keep removability in mind:
+- **Leave a small gap between support and part.** The slicer's **Z-distance / top contact
+  distance** (and the **support interface / roof-floor** layer) controls this — enough gap
+  that supports peel off, small enough that the surface above still prints clean. This is
+  the single biggest lever on easy removal.
+- **Keep supports reachable.** Supports trapped inside an enclosed cavity can't be removed
+  — reorient, split the part, or add an access opening so they can be pulled out. Never
+  design something that *requires* support in a sealed interior.
+- **Minimize the supported area.** The less surface that needs support, the less to remove
+  and the less scarring. Prefer **tree supports** and **"Touching Buildplate Only"** where
+  they'll do (see below).
+- **Put supported faces where scars won't matter.** A support always leaves some mark on
+  the down-facing surface; orient so that surface is hidden or non-critical, not on a
+  show face or a mating/fit surface.
+- **Expect a little cleanup.** Tell the user a supported area may need light sanding or
+  trimming, and note it in the handoff (`handoff-template.md`).
+
+The best support is still **no support** — chamfer, reorient, and split first (below), and
+only then accept the remaining supports, designed to lift away easily.
+
 ### Types of support (so you can advise the user's slicer choice)
 
 - **Lattice / grid (linear):** a dense grid of pillars. Very stable and load-tolerant —
