@@ -1,0 +1,16 @@
+# Blender
+*.blend1
+*.blend2
+*.blend@
+
+# Generated print artifacts
+*.gcode
+*.stl
+*.3mf
+*.obj
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
