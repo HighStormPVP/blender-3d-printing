@@ -52,8 +52,12 @@ caught there, not in the modeling.
 
 1. **Understand the object physically.** Ask, if unclear: How big is it (real
    dimensions in mm)? Does it bear load, flex, or take impact? Does it fit onto or
-   around something else (a shaft, a phone, a standard part)? Does it move? Knowing the
-   forces tells you wall thickness, orientation, and where it may break.
+   around something else (a shaft, a phone, a standard part)? Does it move? Will it see
+   heat, sun, or outdoors? Knowing the forces tells you wall thickness, orientation,
+   where it may break, and which **material** to recommend (see
+   `references/materials.md` — heat/outdoors/load/flex are the four questions that pick
+   it). For **resin (MSLA/SLA)** prints the rules differ — read
+   `references/resin-printing.md`.
 
 2. **Set the scene to real units.** Work in millimeters with sane scale before modeling.
    Run `scripts/setup_scene.py` (via `execute_blender_code`). FDM nozzles are typically
@@ -82,12 +86,22 @@ caught there, not in the modeling.
    and take a `get_viewport_screenshot` to eyeball it. Fix issues before exporting. A
    mesh that isn't watertight will slice into garbage.
 
-7. **Export.** Use `scripts/export_for_print.py` to export each part. Prefer **3MF**
-   (carries real units and multiple objects cleanly); STL is the universal fallback.
+7. **Quantify the material cost.** Run `scripts/estimate_filament.py` to report the
+   part's volume and its mass/cost across infill levels. This turns the
+   filament-efficiency goal into real numbers and helps you recommend an infill.
 
-8. **Offer to slice** (see mandatory ask below).
+8. **Export.** Use `scripts/export_for_print.py` for a single part, or
+   `scripts/export_all_parts.py` to export every part to its own correctly-named file.
+   Prefer **3MF** (carries real units and multiple objects cleanly); STL is the
+   universal fallback.
 
-9. **Offer separate materials/hardware** only if the design needs them (see below).
+9. **Offer to slice** (see mandatory ask below).
+
+10. **Offer separate materials/hardware** only if the design needs them (see below).
+
+11. **Hand off clearly.** Give the user a concise print summary (files, material,
+    infill, orientation, supports, est. material, assembly order) using
+    `references/handoff-template.md` so they can print without re-reading the chat.
 
 ## Two things to ALWAYS ask the user
 
@@ -126,8 +140,13 @@ Read the relevant one when you reach that part of the workflow:
 - `references/assembly-and-hardware.md` — splitting models, joint types, clearance fits,
   and standard dimensions for bearings, magnets, screws, heat-set inserts, springs, and
   common motors.
+- `references/materials.md` — choosing PLA/PETG/ABS/TPU/Nylon/PC from the part's job, and
+  how material choice changes walls, tolerances, and features.
+- `references/resin-printing.md` — how MSLA/SLA differs from FDM: hollowing, drain/vent
+  holes, orientation, no infill.
 - `references/slicing-and-export.md` — export formats, units, and command-line slicing
   with PrusaSlicer / OrcaSlicer / CuraEngine.
+- `references/handoff-template.md` — the print-ready summary to give the user at the end.
 
 ## Scripts (run via the Blender MCP `execute_blender_code`)
 
@@ -137,8 +156,11 @@ These are Blender Python. Read the file, then pass its contents to `execute_blen
 - `scripts/setup_scene.py` — set units to millimeters and a sane clip/grid scale.
 - `scripts/printability_check.py` — enable Blender's 3D-Print Toolbox and report
   non-manifold edges, thin walls, overhangs, intersections, and bounding-box size in mm.
-- `scripts/export_for_print.py` — select an object and export it as STL or 3MF at the
-  correct scale.
+- `scripts/generators.py` — parametric feature library: bearing seats, screw/heat-set
+  bosses, nut traps, teardrop holes, counterbores/countersinks, plus boolean helpers.
+- `scripts/estimate_filament.py` — report mesh volume and mass/cost across infill levels.
+- `scripts/export_for_print.py` — export one object as STL or 3MF at correct scale.
+- `scripts/export_all_parts.py` — export every top-level part to its own named file.
 
 When Blender MCP tools aren't available (you're only advising, not driving Blender),
 use these files as the authoritative checklist and give the user the steps/Python to run

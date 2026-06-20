@@ -31,11 +31,17 @@ blender-3d-printing/
 │   ├── printability.md               # manifold rules, walls, overhangs, tolerances, orientation
 │   ├── filament-efficiency.md        # solid vs shell, infill, hollowing big parts, lightweighting
 │   ├── assembly-and-hardware.md      # multi-part splits, joints, bearing/magnet/screw/motor specs
-│   └── slicing-and-export.md         # export formats + CLI slicing
+│   ├── materials.md                  # PLA/PETG/ABS/TPU/Nylon/PC selection by use case
+│   ├── resin-printing.md             # MSLA/SLA differences: hollowing, drain holes, orientation
+│   ├── slicing-and-export.md         # export formats + CLI slicing
+│   └── handoff-template.md           # the print-ready summary to hand the user
 └── scripts/                          # Blender Python, run via execute_blender_code
     ├── setup_scene.py                # set units to millimeters
     ├── printability_check.py         # 3D-Print Toolbox + bmesh manifold/size report
-    └── export_for_print.py           # export STL/3MF at correct scale
+    ├── generators.py                 # parametric bearing seats, bosses, nut traps, teardrop holes
+    ├── estimate_filament.py          # volume → mass/cost across infill levels
+    ├── export_for_print.py           # export one part as STL/3MF at correct scale
+    └── export_all_parts.py           # export every part to its own named file
 ```
 
 ## Install
