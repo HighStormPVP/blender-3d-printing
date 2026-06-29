@@ -19,11 +19,18 @@ mesh slices into garbage no matter how good the slicer settings are.
 ## Offering to slice (mandatory ask)
 
 After exporting, **ask the user whether they want it sliced and print-ready** so they can
-go straight to the printer. If yes, gather:
+go straight to the printer.
 
-1. **Which slicer** they use: PrusaSlicer, OrcaSlicer, Bambu Studio, or Cura.
-2. **Printer model / profile** (build volume, nozzle dia).
-3. **Filament** (PLA/PETG/ABS/etc.) and any preference on infill, layer height, supports.
+**The normal path is the slicer GUI — for Bambu printers that's Bambu Studio, which
+handles infill, supports, and the rest automatically. See `bambu-studio.md` for the
+click-by-click walkthrough (import → pick printer + filament → slice → print).** Use that
+unless the user specifically wants headless/command-line slicing.
+
+If yes to slicing, gather:
+
+1. **Which slicer** they use: Bambu Studio (Bambu printers), PrusaSlicer, OrcaSlicer, Cura.
+2. **Printer model / profile** (build volume, nozzle dia) — built in for Bambu/most.
+3. **Filament** (PLA/PETG/ABS/etc.).
 4. **Print orientation** — recommend one based on strength (see `printability.md`); the
    slicer can also auto-orient.
 
@@ -31,6 +38,8 @@ If they don't have a slicer set up, just hand over the STL/3MF and confirm it's 
 drop into any slicer.
 
 ## Command-line slicing
+
+For automation or headless use (the GUI in `bambu-studio.md` is the normal path).
 
 Most desktop slicers ship a CLI/headless mode, so you can produce G-code without opening
 the GUI. Confirm the exact binary path and an existing **printer/filament config** with

@@ -5,22 +5,20 @@ material the job allows **without** weakening the part below what its real-world
 demands. Strength and economy are a trade-off — make it deliberately, with the user's
 use case in mind.
 
-## The golden rule: let the slicer do infill
+## The golden rule: let Bambu Studio do the infill
 
 The single biggest efficiency lever is **not modeled in Blender at all** — it's the
-slicer's **infill**. A part modeled as a clean solid and sliced at 15–20% gyroid infill
-is already mostly hollow inside, with an efficient internal lattice that the slicer
-generates and supports automatically.
+slicer's **infill**, and **Bambu Studio does this for you automatically.** A part modeled
+as a clean solid comes out mostly hollow inside, filled with an efficient internal pattern
+that the slicer generates with sensible defaults.
 
 So: **do not hand-model internal honeycombs, ribs, or lattices to "save plastic."**
 You'll spend effort building fragile geometry that the slicer does better and stronger.
-Model the clean outer (and where relevant inner) shape; pick infill at slice time.
+Model the clean outer (and where relevant inner) shape — the inside is the slicer's job.
 
-Typical infill guidance to pass to the user:
-- Decorative / non-load: 5–10%
-- General parts: 15–20%
-- Functional / moderate load: 30–50%
-- High-stress / mechanical: 50–100% or solid walls + thick perimeters
+To raise or lower infill for a stronger or lighter part, that's a one-setting change in
+Bambu Studio (Strength → Sparse infill density), not a modeling task. See
+`bambu-studio.md`.
 
 ## When to actually model it hollow
 
@@ -62,8 +60,9 @@ many fiddly thin features. Keep this in mind alongside raw gram count.
 
 ## Quick decision guide
 
-- Small/medium functional part → model solid, recommend 15–30% infill.
-- Large part / shell / enclosure → model with Solidify wall (2–3 mm) + drain holes,
-  recommend low infill.
-- Decorative → model solid (or shell if big), recommend 5–10% infill.
-- Need stiffness without mass → add ribs/gussets, don't add solid bulk.
+- Small/medium functional part → model a clean solid; let Bambu Studio fill it.
+- Large part / shell / enclosure → model with a Solidify wall (2–3 mm) + drain holes so
+  the big interior volume isn't solid plastic.
+- Decorative → model solid (or shell if big).
+- Need stiffness without mass → add ribs/gussets in the model, don't add solid bulk.
+- Want it lighter or stronger overall → change infill in Bambu Studio, not in Blender.

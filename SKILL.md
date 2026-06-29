@@ -52,13 +52,16 @@ owns what:
 
 - **Blender owns geometry**: the outer/inner shape, wall thickness, holes, chamfers,
   tolerances, how parts mate, orientation features (flat bases, keys).
-- **The slicer owns the print strategy**: infill pattern and density, support
-  generation, perimeters, layer height, brims/rafts.
+- **The slicer owns the print strategy**: infill, support generation, perimeters, layer
+  height, brims/rafts. **Bambu Studio does all of this for you automatically** — see
+  `references/bambu-studio.md`.
 
 This matters for **filament efficiency**. Beginners try to model internal lattices to
-"save plastic." Don't — that is exactly what slicer **infill** does, far better. Model
-the part as a clean solid (or a clean hollow shell with drain holes for big parts) and
-let the slicer fill it at, say, 15% gyroid. See `references/filament-efficiency.md`.
+"save plastic." Don't — that is exactly what the slicer's **infill** does, far better, and
+Bambu Studio adds it automatically. Model the part as a clean solid (or a clean hollow
+shell with drain holes for big parts) and let Bambu Studio fill it. Likewise, don't model
+supports — Bambu Studio auto-generates them for any overhangs; your job is to design so
+few are needed. See `references/filament-efficiency.md` and `references/printability.md`.
 
 ## Start here: settle the design before touching Blender
 
@@ -136,14 +139,14 @@ caught there, not in the modeling.
    Avoid zero-thickness faces, intersecting/overlapping shells, and sub-nozzle detail.
    See `references/printability.md`.
 
-4. **Decide orientation for strength, support, and bed stability.** Layer adhesion is
-   the weak axis — orient the part so loads run *across* layers, not *along* the seam
-   between them. Design a flat base for bed adhesion and minimize overhangs. Also think
-   about **stability while printing**: tall, narrow, top-heavy, or cantilevered shapes
-   can tip over or be knocked off the bed by the print head — they need a broad base, or
-   supports plus a brim to brace them (the slicer generates the supports; you design so
-   they're feasible and you flag them). See `references/printability.md` for the 45°
-   rule, support types (lattice vs. tree), and stability.
+4. **Decide orientation for strength and bed stability, and minimize overhangs.** Layer
+   adhesion is the weak axis — orient the part so loads run *across* layers, not *along*
+   the seam between them. Design a flat base for bed adhesion, and **minimize overhangs**
+   (chamfer, reorient, teardrop holes) so the slicer needs little or no support — Bambu
+   Studio auto-generates whatever support remains. Also design for **stability while
+   printing**: tall, narrow, or top-heavy shapes can tip over or be knocked off the bed,
+   so give them a broad base. See `references/printability.md` for the 45° rule, overhang
+   avoidance, and stability.
 
 5. **Split into parts if needed.** If the model is larger than a typical build plate
    (~220–250 mm), has unavoidable steep overhangs, needs different orientations for
@@ -157,9 +160,10 @@ caught there, not in the modeling.
    and take a `get_viewport_screenshot` to eyeball it. Fix issues before exporting. A
    mesh that isn't watertight will slice into garbage.
 
-7. **Quantify the material cost.** Run `scripts/estimate_filament.py` to report the
-   part's volume and its mass/cost across infill levels. This turns the
-   filament-efficiency goal into real numbers and helps you recommend an infill.
+7. **Quantify the material cost (rough).** Run `scripts/estimate_filament.py` for a quick
+   volume → mass/cost estimate. It's a pre-slice ballpark only — **Bambu Studio reports
+   the authoritative filament weight and print time after you slice** (see
+   `references/bambu-studio.md`).
 
 8. **Export.** Use `scripts/export_for_print.py` for a single part, or
    `scripts/export_all_parts.py` to export every part to its own correctly-named file.
@@ -171,7 +175,7 @@ caught there, not in the modeling.
 10. **Offer separate materials/hardware** only if the design needs them (see below).
 
 11. **Hand off clearly.** Give the user a concise print summary (files, material,
-    infill, orientation, supports, est. material, assembly order) using
+    orientation, Bambu Studio settings, assembly order) using
     `references/handoff-template.md` so they can print without re-reading the chat.
 
 ## Two things to ALWAYS ask the user
@@ -181,11 +185,13 @@ These are explicit product requirements — don't forget them.
 ### 1. Offer to slice it
 
 Once the model is exported and verified, **ask whether they want it sliced and ready to
-print**, so they can go straight to the printer instead of slicing by hand. If yes,
-you'll need their slicer (PrusaSlicer / OrcaSlicer / Cura / Bambu) and printer/filament
-profile. See `references/slicing-and-export.md` for how to slice from the command line
-and what to confirm first. If they don't have a slicer set up, just hand over the
-STL/3MF and say it's ready to import.
+print**, so they can go straight to the printer. The normal path is **Bambu Studio**,
+which handles infill, supports, and everything else automatically — walk the user through
+opening the model, picking their printer + filament, and slicing, using
+`references/bambu-studio.md` (it covers setting infill, supports, and other settings if
+they want to change the defaults). For headless/command-line slicing (OrcaSlicer/
+PrusaSlicer CLI), see `references/slicing-and-export.md`. If they don't have a slicer set
+up, just hand over the STL/3MF and say it's ready to import.
 
 ### 2. Offer separate materials / hardware — only when the print genuinely needs it
 
@@ -208,20 +214,25 @@ design the pockets.
 
 Read the relevant one when you reach that part of the workflow:
 
-- `references/printability.md` — manifold/watertight rules, wall thickness, overhangs &
-  supports, bridging, tolerances/clearances, orientation for strength, common failures.
+- `references/printability.md` — manifold/watertight rules, wall thickness, overhang
+  avoidance, bridging, tolerances/clearances, orientation for strength, bed stability,
+  common failures.
 - `references/filament-efficiency.md` — solid vs. shell, when to hollow, drain holes,
   letting the slicer do infill, lightweighting big parts, chamfer-vs-fillet material
   cost.
+- `references/bambu-studio.md` — how to print in Bambu Studio: import, pick printer +
+  filament, set layer height / infill / supports / brim, orient, slice, and print. Bambu
+  Studio handles infill and supports automatically; this is how to drive it.
 - `references/assembly-and-hardware.md` — splitting models, joint types, clearance fits,
   and standard dimensions for bearings, magnets, screws, heat-set inserts, springs, and
   common motors.
 - `references/materials.md` — choosing PLA/PETG/ABS/TPU/Nylon/PC from the part's job, and
   how material choice changes walls, tolerances, and features.
 - `references/resin-printing.md` — how MSLA/SLA differs from FDM: hollowing, drain/vent
-  holes, orientation, no infill.
+  holes, orientation.
 - `references/slicing-and-export.md` — export formats, units, and command-line slicing
-  with PrusaSlicer / OrcaSlicer / CuraEngine.
+  with OrcaSlicer / PrusaSlicer / CuraEngine (for headless/automation; Bambu Studio is the
+  normal GUI path above).
 - `references/handoff-template.md` — the print-ready summary to give the user at the end.
 
 ## Scripts (run via the Blender MCP `execute_blender_code`)
