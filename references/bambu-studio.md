@@ -85,6 +85,43 @@ that's the whole point of letting the slicer do it.
   small-footprint parts, set **Brim type: Outer brim** (~5 mm) so the part doesn't pop off
   or tip. Most flat-based parts need only the default skirt.
 
+## Process-settings tabs — the actual fields (Bambu Studio)
+
+The right-hand process panel has four tabs. These are the **real field names** (verified in
+Bambu Studio); most defaults are good — only the **bold** ones are worth touching.
+
+**Quality**
+- *Layer height* — **0.20 mm** default; **0.16 mm** for smoother sloped/curved top surfaces
+  (reduces stair-stepping); 0.12 for fine detail. *Initial layer height* stays **0.2 mm**.
+- *Seam position* — **Aligned** (puts the seam in one line; tidy). "Back" hides it.
+- *Only one wall on top surfaces / on first layer* — leave default.
+
+**Strength**
+- *Wall loops* — **2** default; **3** for parts you handle a lot or want sturdier.
+- *Top/bottom shell layers* — defaults (top ~5, bottom ~3–4) are fine; more top layers =
+  a more watertight top.
+- *Top/bottom surface pattern* — **Monotonic** (cleanest-looking surface); leave it.
+- *Sparse infill density* — the main lever: **5–10%** decorative · **15%** general (default)
+  · **25–50%** functional · 100% solid.
+- *Sparse infill pattern* — **Grid** default is fine; **Gyroid** is a strong all-rounder.
+
+**Support**
+- *Enable support* — tick only if there are overhangs/ceilings; leave off for flat prints.
+- *Type* — **Tree (auto)** (organic, easy to snap off) or **Normal (auto)** (boxy/mechanical).
+- *Threshold angle* — **30°** default is good. *On build plate only* — **leave unchecked**
+  if a part has an *internal* ceiling/recess to support; check it to keep supports out of
+  hollow interiors.
+- *Filament for Supports* — leave **Default**.
+
+**Others**
+- *Bed adhesion → Brim type* — **Auto** (adds a brim only if needed). Use **Outer brim**
+  (~5 mm) for tall/tippy/small-footprint parts; flat wide bases need none. *Skirt loops* 0
+  is fine (the A1 does its own purge line at print start).
+- *Prime tower → Enable* — **UNCHECK for single-colour prints.** It's only needed for
+  multi-colour/AMS; otherwise it just wastes filament and plate space. (Default is often on.)
+- *Special mode → Spiral vase* — leave **off** unless printing a single-wall vase.
+  *Print sequence* — **By layer** (normal).
+
 ## 7. Slice and check
 
 - Click **Slice plate** (bottom-right).
